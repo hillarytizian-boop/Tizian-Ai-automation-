@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Marketing Automation Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/inter@5.0.0/index.css" rel="stylesheet">
+    <style>
+        * { font-family: 'Inter', sans-serif; }
+        .gradient-bg { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .glass-card { background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); }
+        .input-field { transition: all 0.3s ease; }
+        .input-field:focus { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102,126,234,0.3); }
+        .btn-generate { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); transition: all 0.3s ease; }
+        .btn-generate:hover { transform: translateY(-3px); box-shadow: 0 15px 35px rgba(102,126,234,0.4); }
+        .btn-generate:active { transform: translateY(-1px); }
+        .output-card { animation: slideIn 0.5s ease-out; }
+        @keyframes slideIn { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
+        .code-block { background: #1e1e1e; color: #d4d4d4; font-family: 'Consolas','Monaco',monospace; }
+        .tab-btn { transition: all 0.3s ease; }
+        .tab-btn.active { background: linear-gradient(135deg,#667eea 0%,#764ba2 100%); color:white; }
+        .loading-spinner { animation: spin 1s linear infinite; }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .success-check { animation: checkmark 0.5s ease-out; }
+        @keyframes checkmark { 0%{transform:scale(0);} 50%{transform:scale(1.2);} 100%{transform:scale(1);} }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb { background: #667eea; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #764ba2; }
+    </style>
+</head>
+<body class="min-h-screen gradient-bg">
+    <div class="container mx-auto px-4 py-8 max-w-7xl">
+        <!-- Header -->
+        <header class="text-center mb-12">
+            <div class="flex items-center justify-center gap-4 mb-4">
+                <div class="w-16 h-16 rounded-2xl glass-card flex items-center justify-center">
+                    <svg class="w-10 h-10 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                    </svg>
+                </div>
+                <h1 class="text-4xl md:text-5xl font-bold text-white">AI Marketing Automation</h1>
+            </div>
+            <p class="text-white/90 text-lg max-w-2xl mx-auto">Generate high-converting marketing content optimized for automated publishing across multiple social media platforms</p>
+        </header>
+
+        <!-- Main Content -->
+        <div class="grid lg:grid-cols-2 gap-8">
+            <!-- Input Form -->
+            <div class="glass-card rounded-3xl p-8 shadow-2xl">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                    </svg>
+                    Product Information
+                </h2>
+                
+                <form id="marketingForm" class="space-y-5">
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Product Name *</label>
+                            <input type="text" id="product_name" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" placeholder="e.g., SmartFit Pro" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Category *</label>
+                            <input type="text" id="category" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" placeholder="e.g., Fitness Technology" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Target Audience *</label>
+                        <input type="text" id="target_audience" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" placeholder="e.g., Health-conscious professionals aged 25-45" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Main Problem Solved *</label>
+                        <input type="text" id="main_problem" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" placeholder="e.g., Lack of time for consistent workouts" required>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Key Benefits *</label>
+                        <textarea id="key_benefits" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none h-24" placeholder="e.g., 15-minute workouts, AI-powered personalization, progress tracking" required></textarea>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Price *</label>
+                            <input type="text" id="price" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" placeholder="e.g., $99.99" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Promotion *</label>
+                            <input type="text" id="promotion" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" placeholder="e.g., 30% OFF Launch Special" required>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-semibold text-gray-700 mb-2">Website Link *</label>
+                        <input type="url" id="website_link" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" placeholder="https://yourproduct.com" required>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Platform *</label>
+                            <select id="platform" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" required>
+                                <option value="">Select Platform</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="facebook">Facebook</option>
+                                <option value="twitter">Twitter/X</option>
+                                <option value="linkedin">LinkedIn</option>
+                                <option value="tiktok">TikTok</option>
+                                <option value="youtube">YouTube</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Country Target</label>
+                            <input type="text" id="country_target" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" value="United States">
+                        </div>
+                    </div>
+
+                    <div class="grid md:grid-cols-2 gap-5">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Posting Date *</label>
+                            <input type="date" id="posting_date" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" required>
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-2">Posting Time *</label>
+                            <input type="time" id="posting_time" class="input-field w-full px-4 py-3 rounded-xl border-2 border-gray-200 focus:border-purple-500 focus:outline-none" required>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-generate w-full py-4 rounded-xl text-white font-bold text-lg flex items-center justify-center gap-3 mt-8">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+                        </svg>
+                        Generate Marketing Content
+                    </button>
+                </form>
+            </div>
+
+            <!-- Output Section -->
+            <div class="glass-card rounded-3xl p-8 shadow-2xl">
+                <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center gap-3">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                    </svg>
+                    Generated Content
+                </h2>
+
+                <div id="loadingState" class="hidden text-center py-16">
+                    <div class="loading-spinner w-16 h-16 border-4 border-purple-200 border-t-purple-600 rounded-full mx-auto mb-4"></div>
+                    <p class="text-gray-600 font-semibold">AI is generating your marketing content...</p>
+                </div>
+
+                <div id="emptyState" class="text-center py-16">
+                    <img src="https://image.qwenlm.ai/public_source/6bcbe9a7-e65a-452a-aaf2-5916a7a96461/14e617a09-69e3-4660-b301-e7ae539507c7.png" alt="Marketing Dashboard" class="w-48 h-48 mx-auto mb-6 rounded-2xl object-cover">
+                    <p class="text-gray-500 text-lg">Fill in the product information and click generate to create your marketing content</p>
+                </div>
+
+                <!-- Output Tabs will go here -->
+            </div>
+        </div>
+
+        <!-- How Automation Works -->
+        <div class="glass-card rounded-3xl p-8 shadow-2xl mt-8">
+            <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">🚀 How Automation Works</h2>
+            <div class="grid md:grid-cols-5 gap-4">
+                <div class="text-center p-4 bg-purple-50 rounded-xl">
+                    <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">1</div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Input Product Data</h3>
+                    <p class="text-sm text-gray-600">Enter product details, audience, pricing, and platform targeting information.</p>
+                </div>
+                <div class="text-center p-4 bg-blue-50 rounded-xl">
+                    <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">2</div>
+                    <h3 class="font-semibold text-gray-800 mb-2">AI Content Generation</h3>
+                    <p class="text-sm text-gray-600">AI creates hooks, captions, hashtags, CTAs, urgency triggers, and blog SEO content.</p>
+                </div>
+                <div class="text-center p-4 bg-green-50 rounded-xl">
+                    <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">3</div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Structured JSON Output</h3>
+                    <p class="text-sm text-gray-600">Content is formatted into automation-ready JSON for easy integration.</p>
+                </div>
+                <div class="text-center p-4 bg-orange-50 rounded-xl">
+                    <div class="w-12 h-12 bg-orange-500 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">4</div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Schedule & Export</h3>
+                    <p class="text-sm text-gray-600">Download JSON and schedule automated publishing to social platforms.</p>
+                </div>
+                <div class="text-center p-4 bg-pink-50 rounded-xl">
+                    <div class="w-12 h-12 bg-pink-500 rounded-full flex items-center justify-center mx-auto mb-3 text-white font-bold">5</div>
+                    <h3 class="font-semibold text-gray-800 mb-2">Auto Publish & Scale</h3>
+                    <p class="text-sm text-gray-600">Connect with automation tools like Zapier, Make, or Meta API to scale campaigns.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>
